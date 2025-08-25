@@ -1,2 +1,1 @@
-# BCC
-Repository with content related to undergraduate studies in computer science 
+# Repository with content related to undergraduate studies in computer science
