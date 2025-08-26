@@ -1,0 +1,29 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+% ---- PREENCHA ----
+\newcommand{\Lista}{1}
+\newcommand{\Nome}{Nome Sobrenome}
+\newcommand{\NUSP}{12345678}
+% -----------------------------
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\Nome}
+\fancyhead[R]{NUSP \NUSP}
+\fancyfoot[L]{Lista \Lista}
+\fancyfoot[C]{MAC0338}
+\fancyfoot[R]{Página \thepage\ de \pageref{LastPage}}
+
+\begin{document}
+
+\section*{Exercício 1}
+Solução aqui.
+
+\newpage
+\section*{Exercício 2}
+Solução aqui.
+
+\end{document}
