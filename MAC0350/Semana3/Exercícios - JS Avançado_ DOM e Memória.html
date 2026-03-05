@@ -149,7 +149,6 @@
         
         
         // --- Exercício 3 ---
-        // Dica: Crie a variável do tempo aqui fora, e o setInterval dentro do listener do botão
         const btn_iniciar = document.getElementById("btn-iniciar");
         let visor_cronometro = document.getElementById("visor-cronometro");
         let startTime, intervalId;
@@ -157,7 +156,7 @@
         btn_iniciar.addEventListener('click', () => {
             if (!intervalId) {
                 startTime = Date.now();
-                intervalId = setInterval(updateTime, 1000); // Update every 10ms
+                intervalId = setInterval(updateTime, 1000); // Update every 1s
 
                 btn_iniciar.innerText = "Pausar e zerar cronômetro";
             }
@@ -176,8 +175,32 @@
         }
         
         // --- Exercício 4 ---
-        // Seu código aqui (Lembre-se de checar o localStorage logo que a página carregar!)
-        
+        const time_seletor = document.getElementById("select-time");
+        let time_selecionado = document.getElementById("time-selecionado");
+
+        time_seletor.addEventListener('change', (event) => {
+            const time_escolhido = event.target.value;
+
+            // Atualiza o texto na interface
+            time_selecionado.innerText = time_escolhido;
+
+            // Salva no Local Storage
+            localStorage.setItem("time-escolhido", time_escolhido);
+        }) 
+
+        window.addEventListener("load", (event) => {
+            const timeSalvo = localStorage.getItem("timeEscolhido");
+
+            if (timeSalvo) {
+
+                // Atualiza o texto
+                time_selecionado.innerText = timeSalvo;
+
+                // Atualiza o seletor
+                time_seletor.value = timeSalvo;
+
+            }
+        });
         
     });
 </script>
