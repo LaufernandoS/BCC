@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Meu Site</title>
+  <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+  <style>
+    /* Exercício 3: indicador visual de aba ativa */
+    .nav-btn { padding: 8px 16px; cursor: pointer; border: none; background: none; }
+    .nav-btn.ativo { border-bottom: 3px solid #55FFFF; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Meu Site HTMX</h1>
+  </header>
+
+  <nav>
+    <!--
+      hx-get: faz GET na rota da aba
+      hx-target: onde o HTML retornado será injetado
+      hx-swap: como substituir (innerHTML = substitui o conteúdo do alvo)
+      _: atributo do hyperscript para manipular classes (ativo/inativo)
+         instale: <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+         OU use JS puro no onclick para trocar a classe .ativo
+    -->
+    <button class="nav-btn ativo"
+            hx-get="/aba/curtidas"
+            hx-target="#conteudo"
+            hx-swap="innerHTML"
+            onclick="setAtivo(this)">
+      Curtidas
+    </button>
+
+    <button class="nav-btn"
+            hx-get="/aba/jupiter"
+            hx-target="#conteudo"
+            hx-swap="innerHTML"
+            onclick="setAtivo(this)">
+      Júpiter
+    </button>
+
+    <button class="nav-btn"
+            hx-get="/aba/professor"
+            hx-target="#conteudo"
+            hx-swap="innerHTML"
+            onclick="setAtivo(this)">
+      Professor
+    </button>
+  </nav>
+
+  <!-- Exercício 3: área onde o conteúdo das abas é injetado -->
+  <main id="conteudo"
+        hx-get="/aba/curtidas"
+        hx-trigger="load">
+    <!-- carregado automaticamente ao abrir a página -->
+  </main>
+
+  <script>
+    // Exercício 3: trocar classe ativo nos botões
+    function setAtivo(btn) {
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('ativo'));
+      btn.classList.add('ativo');
+    }
+
+    // Exercício 4: atalho Shift + AltGr + P  (KeyP com shiftKey + altKey)
+    const abas = ['/aba/curtidas', '/aba/jupiter', '/aba/professor'];
+    const botoes = document.querySelectorAll('.nav-btn');
+    let abaAtual = 0;
+
+    document.addEventListener('keydown', (e) => {
+      // AltGr gera altKey=true E ctrlKey=true em alguns sistemas
+      if (e.shiftKey && e.altKey && e.key === 'p') {
+        abaAtual = (abaAtual + 1) % abas.length;
+        // aciona o botão correspondente, que já tem os atributos hx-get
+        botoes[abaAtual].click();
+      }
+    });
+  </script>
+
+</body>
+</html>

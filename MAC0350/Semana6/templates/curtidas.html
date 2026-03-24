@@ -1,0 +1,26 @@
+<!--
+  Este é um FRAGMENTO — não tem <html> nem <head>.
+  O HTMX injeta esse pedaço dentro do <main id="conteudo">.
+-->
+<section>
+  <h2>Curtidas</h2>
+
+  <!-- Exercício 1: contador + botão curtir -->
+  <div id="contador">
+    <span>❤️ {{ curtidas }} curtidas</span>
+
+    <button hx-post="/curtir"
+            hx-target="#contador"
+            hx-swap="outerHTML">
+      Curtir!
+    </button>
+  </div>
+
+  <!-- Exercício 2: zerar com confirmação (sem <script>) -->
+  <button hx-post="/zerar"
+          hx-target="#contador"
+          hx-swap="outerHTML"
+          hx-confirm="Tem certeza que quer zerar todas as curtidas?">
+    Zerar curtidas
+  </button>
+</section>

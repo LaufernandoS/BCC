@@ -1,0 +1,96 @@
+* {
+   box-sizing: border-box;
+}
+
+:root {
+   --primary-color: #55FFFF;
+   --accent-color: #FF4400;
+}
+
+p {
+  font-family: "Verdana", Arial, sans-serif;
+  font-size: 16px;
+}
+
+h1 {
+  font-family: "Verdana", Arial, sans-serif;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+body {
+    background-color: #55FFFF;
+}
+
+.container img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+#container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#container > div {
+    font-size: 14px;
+    margin: 20px;
+    padding: 20px;
+    flex: 1;
+    min-width: 200px;
+}
+
+footer {
+    color: #FF4400;
+    text-align: center;
+}
+
+form {
+    display: flex;
+    justify-content: center;  /* centraliza horizontalmente */
+    align-items: center;      /* centraliza verticalmente */
+}
+
+
+.menu-box {
+    background-color: #10B3B3;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.menu-box h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.nav-link {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+
+.login_box {
+    background-color: #10B3B3;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    width: 100%;
+    max-width: 300px;
+}
+
+/* .box {
+    display: grid;
+    grid-template-columns: 120px 120px 120px;
+    align-items: start;
+    justify-content: space-between;
+} */
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    margin-top: 2rem;
+}

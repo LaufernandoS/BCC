@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Professor</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --primary: #00B3B3;
+            --primary-dark: #007a7a;
+            --accent: #FF4400;
+            --bg: #55FFFF;
+            --card-bg: #10B3B3;
+            --text-dark: #1a2e2e;
+            --text-muted: #2a5050;
+            --radius: 10px;
+            --shadow: 0 4px 18px rgba(0,0,0,0.12);
+        }
+
+        body {
+            background: var(--bg);
+            font-family: "Verdana", Arial, sans-serif;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── HEADER ── */
+        header {
+            background: #fff;
+            border-bottom: 3px solid var(--primary);
+            padding: 12px 0;
+        }
+
+        .header-inner {
+            max-width: 960px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            padding: 0 20px;
+        }
+
+        .header-inner img {
+            height: 56px;
+            width: auto;
+        }
+
+        /* ── WRAPPER ── */
+        .main-wrapper {
+            flex: 1;
+            max-width: 960px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 32px 20px 32px;
+        }
+
+        /* ── PROFESSOR CARD ── */
+        .professor-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 28px;
+            display: flex;
+            gap: 28px;
+            align-items: flex-start;
+            margin-bottom: 32px;
+        }
+
+        @media (max-width: 580px) {
+            .professor-card { flex-direction: column; align-items: center; }
+        }
+
+        /* Foto placeholder */
+        .photo-slot {
+            flex-shrink: 0;
+            width: 140px;
+            height: 170px;
+            border-radius: 8px;
+            border: 3px dashed rgba(255,255,255,0.45);
+            background: rgba(255,255,255,0.12);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.6);
+            font-size: 12px;
+            text-align: center;
+            gap: 8px;
+            cursor: default;
+        }
+
+        .photo-slot .photo-icon { font-size: 36px; opacity: 0.5; }
+
+        /* Quando uma foto for adicionada, substituir o placeholder:
+           <img src="foto.jpg" alt="..." class="photo-img"> */
+        .photo-img {
+            width: 140px;
+            height: 170px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        /* Info */
+        .professor-info { flex: 1; color: #fff; }
+
+        .professor-info h1 {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .professor-info .cargo {
+            font-size: 13px;
+            opacity: 0.8;
+            margin-bottom: 4px;
+        }
+
+        .professor-info .departamento {
+            font-size: 13px;
+            opacity: 0.7;
+            margin-bottom: 16px;
+        }
+
+        .professor-info p {
+            font-size: 13.5px;
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+
+        .contact-links {
+            margin-top: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .contact-tag {
+            background: rgba(255,255,255,0.18);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 20px;
+            color: #fff;
+            font-size: 12px;
+            padding: 4px 12px;
+            text-decoration: none;
+            transition: background 0.18s;
+        }
+
+        .contact-tag:hover { background: rgba(255,255,255,0.32); }
+
+        /* ── TABS ── */
+        .tabs-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 0;
+            border-bottom: 3px solid var(--primary-dark);
+            padding-bottom: 0;
+        }
+
+        .tab-btn {
+            background: rgba(0,0,0,0.08);
+            border: none;
+            border-radius: 7px 7px 0 0;
+            color: var(--text-dark);
+            font-family: "Verdana", Arial, sans-serif;
+            font-size: 12.5px;
+            font-weight: bold;
+            padding: 9px 16px;
+            cursor: pointer;
+            transition: background 0.18s, color 0.18s;
+            position: relative;
+            bottom: -3px;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn:hover {
+            background: rgba(0,0,0,0.14);
+        }
+
+        .tab-btn.ativo {
+            background: var(--card-bg);
+            color: #fff;
+            border-bottom: 3px solid var(--card-bg);
+        }
+
+        /* ── TAB CONTENT ── */
+        .tab-content {
+            background: var(--card-bg);
+            border-radius: 0 0 var(--radius) var(--radius);
+            box-shadow: var(--shadow);
+            padding: 28px;
+            color: #fff;
+            min-height: 200px;
+            animation: fadeIn 0.25s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+        .tab-panel { display: none; }
+        .tab-panel.ativo { display: block; }
+
+        .tab-panel h2 {
+            font-size: 16px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid rgba(255,255,255,0.25);
+        }
+
+        .tab-panel p, .tab-panel li {
+            font-size: 13.5px;
+            line-height: 1.75;
+            opacity: 0.9;
+        }
+
+        .tab-panel ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tab-panel ul li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .tab-panel ul li::before {
+            content: "▸";
+            opacity: 0.6;
+            flex-shrink: 0;
+        }
+
+        .placeholder-text {
+            font-size: 13px;
+            opacity: 0.6;
+            font-style: italic;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            text-align: center;
+            padding: 16px;
+            font-size: 12px;
+            color: var(--accent);
+            border-top: 2px solid var(--primary);
+            background: rgba(0,0,0,0.04);
+            margin-top: 32px;
+        }
+
+        footer a { color: var(--accent); margin: 0 6px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <img src="logo-usp-universidade-de-sao-paulo.png"
+                 alt="Logo USP" />
+        </div>
+    </header>
+
+    <div class="main-wrapper">
+
+        <!-- CARD DO PROFESSOR -->
+        <div class="professor-card">
+
+            <!-- Foto: substitua o div.photo-slot por <img class="photo-img" src="sua_foto.jpg"> quando tiver a imagem -->
+            <div class="photo-slot">
+                <span class="photo-icon">👤</span>
+                <span>Foto do<br>Professor</span>
+            </div>
+
+            <div class="professor-info">
+                <h1>Prof. Dr. Nome Completo</h1>
+                <p class="cargo">Professor Associado</p>
+                <p class="departamento">Departamento de Ciência da Computação · IME-USP</p>
+
+                <p>
+                    Breve descrição do professor: área de atuação, principais interesses de pesquisa,
+                    formação acadêmica e qualquer informação relevante para apresentação pública.
+                    Substitua este texto pelo conteúdo real.
+                </p>
+
+                <div class="contact-links">
+                    <a href="#" class="contact-tag">✉ email@usp.br</a>
+                    <a href="#" class="contact-tag">🔗 Lattes</a>
+                    <a href="#" class="contact-tag">📄 ORCID</a>
+                    <a href="#" class="contact-tag">🐙 GitHub</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ABAS -->
+        <div class="tabs-header" id="tabs-header">
+            <button class="tab-btn ativo" onclick="mudarAba('publications', this)">Publications</button>
+            <button class="tab-btn" onclick="mudarAba('research', this)">Research</button>
+            <button class="tab-btn" onclick="mudarAba('students', this)">Students</button>
+            <button class="tab-btn" onclick="mudarAba('teaching', this)">Teaching</button>
+            <button class="tab-btn" onclick="mudarAba('events', this)">Scientific Events</button>
+            <button class="tab-btn" onclick="mudarAba('books', this)">Books & Notes</button>
+        </div>
+
+        <div class="tab-content">
+
+            <div class="tab-panel ativo" id="panel-publications">
+                <h2>Publications</h2>
+                <ul>
+                    <li>Autor, A., Autor, B. (2024). Título do artigo. <em>Nome do periódico</em>, vol. X, pp. 00–00.</li>
+                    <li>Autor, A. (2023). Outro artigo publicado. <em>Conference Proceedings</em>, pp. 00–00.</li>
+                    <li>Adicione aqui as publicações reais do professor.</li>
+                </ul>
+            </div>
+
+            <div class="tab-panel" id="panel-research">
+                <h2>Research</h2>
+                <p class="placeholder-text">Descrição das linhas e projetos de pesquisa em andamento.</p>
+            </div>
+
+            <div class="tab-panel" id="panel-students">
+                <h2>Students</h2>
+                <p class="placeholder-text">Lista de orientandos de iniciação científica, mestrado e doutorado.</p>
+            </div>
+
+            <div class="tab-panel" id="panel-teaching">
+                <h2>Teaching</h2>
+                <ul>
+                    <li>MAC0101 — Introdução à Computação (2024)</li>
+                    <li>MAC0999 — Tópicos Avançados (2023)</li>
+                    <li>Adicione as disciplinas ministradas.</li>
+                </ul>
+            </div>
+
+            <div class="tab-panel" id="panel-events">
+                <h2>Scientific Events</h2>
+                <p class="placeholder-text">Participação em conferências, workshops e eventos científicos.</p>
+            </div>
+
+            <div class="tab-panel" id="panel-books">
+                <h2>Books & Notes</h2>
+                <p class="placeholder-text">Livros publicados, notas de aula e material didático disponível.</p>
+            </div>
+
+        </div>
+        <!-- fim abas -->
+
+    </div>
+
+    <footer>
+        <a href="https://uspdigital.usp.br/jupiterweb/creditos.jsp">Créditos</a>
+        <a href="https://uspdigital.usp.br/jupiterweb/jupColegiadoEmailLista">Fale Conosco</a>
+        <br>© 1999 – 2026 · Superintendência de Tecnologia da Informação / USP
+    </footer>
+
+    <script>
+        function mudarAba(id, btn) {
+            // Desativa todos os painéis e botões
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('ativo'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('ativo'));
+
+            // Ativa o painel e o botão clicado
+            document.getElementById('panel-' + id).classList.add('ativo');
+            btn.classList.add('ativo');
+        }
+    </script>
+
+</body>
+</html>
