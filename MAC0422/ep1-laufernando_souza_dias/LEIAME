@@ -1,0 +1,102 @@
+~~~~~~~~~~~~~~~~~~~~ EP1 - Shell e Simulador de Processos ~~~~~~~~~~~~~~~~~~~~
+
+Este projeto faz parte do curso/disciplina MAC0422 - Sistemas Operacionais 
+de 2026, do Instituto de Matemática e Estatística da Universidade de São Paulo,
+e consiste em duas partes:
+
+Um shell personalizado (imesh);
+Um simulador de processos com escalonadores (ep1).
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Compilação ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Para compilar os programas, utilize o Makefile fornecido:
+
+make
+
+Isso irá gerar dois executáveis: imesh e ep1.
+
+Caso queira compilar individualmente:
+
+make imesh
+make ep1
+
+Para limpar os arquivos compilados:
+
+make clean
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Dependências ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+GCC (compilador C)
+Biblioteca pthread
+Biblioteca GNU readline (libreadline-dev)
+
+Certifique-se de ter instaladas as dependências necessárias; 
+em sistemas baseados em Debian/Ubuntu:
+
+sudo apt-get install build-essential libreadline-dev
+
+Em sistemas baseados em RPM:
+
+sudo dnf install readline-devel
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~ Executando o Shell (imesh) ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+./imesh
+
+O shell suporta os seguintes comandos:
+
+/bin/ls -1aF --color=never - Lista arquivos no formato especificado
+/bin/top -b -n 1 -p 1 - Mostra informações do processo 1
+./ep1 <argumentos> - Executa o simulador de processos
+
+pwd - Mostra o nome do diretório atual
+date +%s - Mostra o tempo decorrido, em segundos, desde o marco zero do 
+timestamp Unix
+
+kill -<sinal> <pid> - Sinaliza para um processo pelo pid e o valor do sinal
+a ser passado
+
+Para navegar pelo histórico de comandos, use as teclas de seta para cima e 
+para baixo. Para sair do shell, digite exit.
+
+~~~~~~~~~~~~~~~~~~ Executando o Simulador de Processos (ep1) ~~~~~~~~~~~~~~~~~~
+
+./ep1 <numeroEscalonador> <arquivoTrace.txt> <simulacao.txt>
+
+Onde:
+
+numeroEscalonador é o algoritmo de escalonamento (1=SJF, 2=RR, 3=Prioridade)
+arquivoTrace.txt é o arquivo com a descrição dos processos
+simulacao.txt é o arquivo de saída com os resultados da simulação
+
+~~~~~~~~~~~~~~~~~~~~ Formato do arquivo de trace (entrada) ~~~~~~~~~~~~~~~~~~~~
+
+Cada linha do arquivo representa um processo no formato:
+
+<nome> <deadline> <t0> <dt> 
+
+Onde:
+
+nome é o identificador do processo (string sem espaços, máx 32 caracteres)
+deadline é o prazo limite para o processo terminar (segundos)
+t0 é o momento de chegada do processo (segundos)
+dt é a duração do processo (segundos)
+
+~~~~~~~~~~~~~~~~~~~ Formato do arquivo de simulação (saída) ~~~~~~~~~~~~~~~~~~~
+
+Cada linha do arquivo representa um processo no formato:
+
+<cumpriu> <nome> <tf> <tr>
+
+Onde:
+
+cumpriu é 0 quando o deadline não foi cumprido, 1 se foi cumprido;
+nome é o identificador do processo, o mesmo da entrada;
+tf é o tempo de finalização do processo (segundos);
+tr é o tempo de relógio do processo (segundos).
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Para mais detalhes da implementação, como as referências e testes realizados, 
+verifique os slides de slides-ep1.pdf no diretório raiz do projeto, ou os
+comentários nos códigos.
