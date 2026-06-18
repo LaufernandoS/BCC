@@ -1,0 +1,91 @@
+~~~~~~~~~~~~~~~~~~~~~ EP2 - Simulador de Corrida Madison ~~~~~~~~~~~~~~~~~~~~~
+
+Este projeto faz parte do curso/disciplina MAC0422 - Sistemas Operacionais 
+de 2026, do Instituto de Matemática e Estatística da Universidade de 
+São Paulo, e consiste em um simulador de corridas da modalidade Madison, 
+do ciclismo (ep2).
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Compilação ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Para compilar os programas, utilize o Makefile fornecido:
+
+make
+make ep2
+
+Isso irá gerar o executável ep2.
+
+Para limpar os arquivos compilados:
+
+make clean
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Dependências ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+GCC (compilador C)
+Biblioteca pthread
+Biblioteca stdatomic
+
+Certifique-se de ter instaladas as dependências necessárias.
+
+~~~~~~~~~~~~~~~~~~ Executando o Simulador de Corridas (ep2) ~~~~~~~~~~~~~~~~~~~
+
+./ep2 <nº voltas> <metragem do velódromo> <nº de equipes> \
+           <abordagem: i|e> [-debug] 
+
+Onde:
+
+nº voltas :- quantas voltas a corrida terá;
+metragem do velódromo :- quantidade, em metros, de cada volta;
+nº de equipes :- quantidade de equipes/duplas competidoras;
+abordagem :- controle de acesso a pista na simulação: i para "ingênua" com
+único mutex global, e para "eficiente" com vários mutexes por metragem do
+velódromo;
+-debug :- argumento opcional para visualizar o velódromo a cada 60ms. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~ Formato do relatório (saída) ~~~~~~~~~~~~~~~~~~~~~~~~
+
+O relatório na saída padrão imprime a posição de cada equipe ao final 
+de cada volta. Na última volta, mostra o tempo que foi levado na corrida
+simulada, e a quantidade de voltas vencidas por cada equipe.
+
+Já o debug na saída de erro traz uma visualização gráfica onde ". "
+representa posição vazia, e "Xy" representa o ciclista do time X com
+rótulo diferenciador y. A visualização está no sentido anti-horário, com
+voltas sendo concluídas do lado direito do velódromo. Para enxergar de
+forma mais limpa, recomenda-se redirecionar essa saída para um arquivo
+como no exemplo:
+
+./ep2 10 100 5 e -debug 2> debug.log
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Vale ressaltar que a destruição das threads de ciclistas ocorre apenas quando
+a última equipe finaliza a corrida, constituindo uma limitação da implementação
+porque gera um efeito de "thundering herd", onde threads de ciclistas que já
+terminaram a prova ficam ociosas e passando pela barreira repetidamente,
+acordando simultaneamente a cada ciclo, e potencialmente reduzindo a
+performance média.
+
+Ainda assim, a implementação de uma barreira dinâmica até foi tentada mas 
+sem sucesso, devido às dificuldades de controle entre um ciclo e outro, e a
+vulnerabilidade a deadlocks.
+
+O uso de debug também torna a execução bem mais lenta e pesada por parar todas
+as threads de ciclistas para atualizar o velódromo a cada passo de simulação, 
+então deve ser utilizado com cuidado, sendo ideal para entradas menores.
+
+Além disso, uma versão com um pequeno erro lógico chegou a ser enviada para
+entrega na página da disciplina: a invocação de "swap_cyclists(c, teammate);" 
+era realizada sempre que uma volta múltipla de 5 era completada, independente
+da equipe estar emparelhada na mesma coluna ou não. Isso foi corrigido com o 
+o acŕescimo de uma "swap_flag" na struct dos ciclistas, um if na linha 380 
+do ep3.c, e verificações defensivas na função swap_cyclists para evitar
+acessos indevidos a memória sem acrescentar mutexes ou variáveis atômicas.
+
+Os testes foram realizados com a versão anterior, mas optei por não  
+refazê-los, já que o impacto na performance seria irrisório, e a troca de 
+ciclistas envolve uma simples troca de velocidades, ou seja, isso não muda 
+o desempenho da simulação de fato.
+
+Para mais detalhes da implementação, como as referências e testes realizados, 
+verifique os slides de slides-ep2.pdf no diretório raiz do projeto, ou os
+comentários nos códigos.
