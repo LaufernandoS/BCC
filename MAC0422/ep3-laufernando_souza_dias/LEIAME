@@ -1,0 +1,94 @@
+~~~~~~~~~~~ EP3 - Simulação de Algoritmos de Substituição de Página ~~~~~~~~~~
+
+Este projeto faz parte do curso/disciplina MAC0422 - Sistemas Operacionais 
+de 2026, do Instituto de Matemática e Estatística da Universidade de 
+São Paulo, e consiste em em um simulador de algoritmos de substituição de
+páginas de uma MMU (Memory Management Unit) quando memória física e memória
+virtual são manipuladas em um sistema operacional (ep3).
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Compilação ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Para compilar os programas, utilize o Makefile fornecido:
+
+make
+make ep3
+
+Isso irá gerar o executável ep3.
+
+Para limpar os arquivos compilados:
+
+make clean
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Dependências ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+GCC (compilador C)
+
+Certifique-se de ter instaladas as dependências necessárias.
+
+~~~~~~~~~~~~~~~~~~~~~~~~ Executando o Simulador (ep3) ~~~~~~~~~~~~~~~~~~~~~~~~
+
+./ep3 <nome de arquivo pgm de memória física> \ 
+            <nome de arquivo pgm de memória virtual> \
+            <número do algoritmo de substituição de página>
+
+sem o uso das barras invertidas "\".
+
+Onde:
+
+nome de arquivo pgm de memória física :- arquivo .pgm com os processos donos
+do respectivo quadro de páginas.
+nome de arquivo pgm de memória virtual :- arquivo .pgm com as entradas da
+tabela de páginas e endereço de referência na memória física.
+número do algoritmo de substituição de página :-
+1 para o NRU (not recently used),
+2 para o Second Chance,
+3 para o LRU2 (least recently used, com matriz).
+
+O simulador possui interação com usuário, e os comandos suportados são:
+
+<PID> <L|E> <endereço>
+
+imprime virtual
+
+imprime fisica
+
+sair
+
+onde o primeiro executa acesso a memória de acordo com o modo de leitura e
+o endereço para o trecho de memória do processo pelo seu PID, o segundo e o
+terceiro fazem as respectivas impressões de forma literal, e o último encerra
+ o programa.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Formato da saída ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A saída depende do comando executado pelo usuário. Caso seja um dos comandos
+de impressão, imprime integralmente o conteúdo do arquivo da memória desejada.
+Caso seja o comando de saída, exibe a quantidade total de page hits e page
+faults detectada e encerra a execução.
+Caso seja comando de acesso, é exibido o evento ocorrido na tela ("hit" ou
+"fault"), além de modificar os arquivos .pgm de acordo com a escolha do 
+algoritmo de paginação.
+
+Para executar testes com uma sequência predefinida de comandos de acesso num
+arquivo "trace", executar de uma forma análoga a essa:
+
+./ep3 fisica.pgm virtual.pgm n < trace > trace.log
+
+Onde os argumentos após o identificador do algoritmo, "n", se referem ao trace
+(entrada) e ao seu log (saída) respectivamente.
+
+Para executar testes com as mesmas condições iniciais na memória, é recomendado
+ manter cópias originais dos .pgm em outro diretório e, após cada execução,
+fazer a restauração, segue exemplo com as cópias originais num diretório acima
+sendo restauradas:
+
+cp ../ep3-memfisica-exemplo01.pgm ../ep3-memvirtual-exemplo01.pgm .
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A implementação procurou uma organização usando menos variáveis globais que os
+trabalhos anteriores, além de reaproveitar procedimentos de parsing do ep1.
+
+Para mais detalhes da implementação, como as referências e testes realizados, 
+verifique os slides de slides-ep3.pdf no diretório raiz do projeto, ou os
+comentários nos códigos.
